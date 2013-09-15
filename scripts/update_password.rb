@@ -14,6 +14,8 @@ end
 
 user = read_config['user']
 return if !user || user =~ /[\x00-\x20]/ || user[/[\\\/:\|\[\]\{\} ]/]
+user = user.encode('cp1251')
+return if !user || user =~ /[\x00-\x20]/ || user[/[\\\/:\|\[\]\{\} ]/]
 
 dt = Time.now
 seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
