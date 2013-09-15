@@ -1,6 +1,6 @@
 # This runs sinatra app as a service
 
-LOG_FILE = 'C:\\winlock-primer\\log.log'
+LOG_FILE = 'C:\\winlock-primer\\log\\service.log'
 
 require "rubygems"
 require 'sinatra/base'
@@ -12,7 +12,7 @@ begin
 
   class DemoDaemon < Daemon
     def service_main
-      Sinatra::Application.run! :host => 'localhost', :port => 9090, :server => 'thin'
+      Sinatra::Application.run! :host => 'localhost', :port => 9090 #, :server => 'thin'
 #      while running?
 #        sleep 10
 #        File.open("c:\\test.log", "a"){ |f| f.puts "Service is running #{Time.now}" }
