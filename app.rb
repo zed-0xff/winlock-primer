@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'sinatra'
 require 'haml'
+require 'digest/md5'
 
 require './primer'
 
@@ -14,5 +15,6 @@ get '/' do
   10.times do
     @primers << Primer.generate(100+rand(1900), 6+rand(4))
   end
+  @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   haml :index
 end
