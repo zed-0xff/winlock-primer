@@ -4,7 +4,8 @@ LOG_FILE = 'C:\\winlock-primer\\log\\service.log'
 
 require "rubygems"
 require 'sinatra/base'
-require './app'
+
+require File.join(File.dirname(__FILE__), "app")
 
 begin
   require 'win32/daemon'
