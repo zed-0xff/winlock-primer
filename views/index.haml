@@ -29,6 +29,11 @@
         $('input').keyup(function(){
           check_input(this)
         })
+
+        // reload page at next day start, if still open
+        var d=new Date()
+        var d1=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1)
+        setTimeout(function(){ window.location.reload() }, d1-d)
       })
 
       function check_input(input){
