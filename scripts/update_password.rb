@@ -2,6 +2,7 @@
 # this file must be scheduled run daily at 00:01
 # with enabled option "run immediately if skipped"
 
+require 'yaml'
 require 'digest/md5'
 
 def read_config
