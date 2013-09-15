@@ -1,0 +1,14 @@
+-# coding: utf-8
+%html
+  %head
+    %title Примеры
+    :css
+      *        { font-family: verdana }
+      table    { border-collapse: collapse }
+      table td { border: solid 1px #ccc; font-size: 14pt; padding: 5px 10px }
+  %body
+    %table
+      - @primers.each_with_index do |primer, idx|
+        %tr
+          %td(align='right')= idx+1
+          %td(align='center')= primer.to_s.tr('/*',':∙')
