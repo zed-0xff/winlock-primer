@@ -19,4 +19,4 @@ dt = Time.now
 seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
 new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
 
-system "net user #{config['user']} #{new_password}"
+system "net user #{user} #{new_password}"
