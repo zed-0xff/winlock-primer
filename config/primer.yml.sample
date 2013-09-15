@@ -1,2 +1,4 @@
 # number of primers
 primers: 10
+# username to be blocked
+user: bob
