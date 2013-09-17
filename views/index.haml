@@ -4,23 +4,29 @@
     %title Примеры
     :css
       *                 { font-family: verdana }
-      body              { display: table; margin: 0.6em auto }
-      table             { border-collapse: collapse }
+      table             { border-collapse: collapse; margin-bottom: 1.5em }
       table td          { border: solid 1px #ccc; font-size: 14pt; padding: 5px 10px }
       table td.primer   { text-align: center }
       table td.input    { padding: 2px 4px }
       table th          { padding-top: 1.2em; font-size: 11pt; font-weight: normal; color: gray; display:none }
+      table caption     { color: gray; font-size: 10pt }
 
-      input             { font-size: 12pt; text-align: center; width: 6em }
+      input             { font-size: 12pt; text-align: center; width: 9em }
       input.empty       { background-color: #ffc }
       input.wrong       { background-color: #f88 }
       input.correct     { background-color: #8f8 }
 
-      div.password         { 
-        display: table-cell; font-weight: bold; color: black;
+      table.math input  { width: 6em }
+
+      div.password      { 
+        display: none;
+        font-weight: bold; color: black;
         background-color: #8f8; border: solid 1px green;
-        text-align:center; font-size: 20; padding: 10px
+        text-align:center; font-size: 20; padding: 10px;
+        width: 10em;
       }
+
+      .answer           { display: none }
 
     %script(src="/jquery-2.0.3.min.js")
     :javascript
@@ -46,13 +52,14 @@
           return
         }
 
-        answer = parseInt(answer)
+        var r = false;
+        if( input.closest('table').hasClass('math') ){
+          r = check_math_input(input, answer);
+        } else {
+          r = check_other_input(input, answer);
+        }
 
-        var primer = $('td.primer', input.closest('tr')).text()
-        primer = primer.replace(/:/g, "/")
-        primer = primer.replace(/∙/g, "*")
-        //console.log(eval(primer))
-        if( eval(primer) == answer ){
+        if( r ){
           input.addClass('correct')
         } else {
           input.addClass('wrong')
@@ -64,15 +71,45 @@
           $('.password').hide(100)
         }
       }
+
+      function check_math_input(input, answer){
+        answer = parseInt(answer)
+
+        var primer = $('td.primer', input.closest('tr')).text()
+        primer = primer.replace(/:/g, "/")
+        primer = primer.replace(/∙/g, "*")
+        //console.log(eval(primer))
+        return eval(primer) == answer;
+      }
+
+      function check_other_input(input, answer){
+        //console.log(input)
+        var right_answer = input.siblings('.answer').text()
+        if( right_answer.indexOf('[') != -1 && right_answer.indexOf(']') != -1 ){
+          // multiple right answers
+          return $.parseJSON(right_answer).indexOf(answer) != -1
+        } else {
+          return answer == right_answer
+        }
+      }
   %body
-    %table
-      - @primers.each_with_index do |primer, idx|
-        %tr
-          %td(align='right')= idx+1
-          %td.primer= primer.to_s.tr('/*',':∙')
-          %td.input
-            %input.empty
-      %tr
-        %th.password(colspan=3 align='center')
-          пароль
-          .password= @password
+    %center
+      %table.math
+        %caption реши примеры
+        - @primers.each_with_index do |primer, idx|
+          %tr
+            %td(align='right')= idx+1
+            %td.primer= primer.to_s.tr('/*',':∙')
+            %td.input
+              %input.empty
+
+        - @modules.each do |km, m|
+          %table
+            %caption= m['title']
+            - m['data'].to_a.shuffle[0, m['primers']].each do |k,v|
+              %tr
+                %td.primer= k
+                %td.input
+                  %input.empty
+                  .answer= v
+      .password= @password
