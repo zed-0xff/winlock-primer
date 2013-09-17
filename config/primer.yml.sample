@@ -1,4 +1,6 @@
-# number of primers
-primers: 10
+# number of primers daily
+primers: 3
+# number of primers at weekend
+primers_weekend: 5
 # username to be blocked
 user: bob
