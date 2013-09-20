@@ -1,0 +1,149 @@
+---
+mother:
+ - мама
+ - мать
+father:
+ - папа
+ - отец
+dog:
+ - собака
+ - пес
+cat:
+ - кот
+ - кошка
+cow: корова
+bicycle: велосипед
+car:
+ - машина
+ - автомобиль
+floor: пол
+wall: стена
+orange:
+ - оранжевый
+ - апельсин
+red: красный
+green: зеленый
+yellow: 
+ - желтый
+ - жёлтый
+mouse:
+ - мышь
+ - мышка
+chicken: курица
+table: стол
+face: лицо
+man:
+ - мужчина
+ - человек
+woman: женщина
+girl:
+ - девочка
+ - девушка
+boy: мальчик
+child: ребенок
+children: дети
+white: белый
+blue: синий
+black:
+ - черный
+ - чёрный
+head: голова
+hand: рука
+leg: нога
+house:
+ - дом
+ - здание
+home: дом
+Russia: Россия
+USA: США
+computer: компьютер
+calculator: калькулятор
+water: вода
+road: 
+ - дорога
+ - путь
+hot: горячий
+cold: холодный
+food:
+ - еда
+ - пища
+music: музыка
+picture:
+ - картина
+ - картинка
+ - фотография
+book: книга
+pen: ручка
+pencil: карандаш
+paper: бумага
+scissors: ножницы
+eraser:
+ - ластик
+ - резинка
+ - стирательная резинка
+chair: стул
+monitor: монитор
+keyboard: клавиатура
+left:
+ - лево
+ - левый
+right:
+ - право
+ - правый
+ - правильный
+up:
+ - верх
+ - вверх
+down:
+ - низ
+ - вниз
+in: в
+on:
+ - на
+ - по
+from:
+ - от
+ - из
+ - с
+for:
+ - для
+ - на
+ - за
+what: что
+where: где
+when: когда
+TV:
+ - ТВ
+ - телевизор
+joystick: джойстик
+phone: телефон
+clock: часы
+hour: час
+minute: минута
+second:
+ - секунда
+ - второй
+toy: игрушка
+bread: хлеб
+butter: масло
+water: вода
+toy: игрушка
+bread: хлеб
+butter: масло
+water: вода
+street: улица
+number: номер
+one: один
+two: два
+three: три
+four: четыре
+five: пять
+six: шесть
+seven: семь
+eight: восемь
+nine: девять
+ten: десять
+eleven: одиннадцать
+twelve: двенадцать
+zero: ноль
+milk: молоко
