@@ -26,6 +26,8 @@
         width: 10em;
       }
 
+      sup               { font-size: 9pt }
+
       .answer           { display: none }
 
     %script(src="/jquery-2.0.3.min.js")
@@ -52,14 +54,7 @@
           return
         }
 
-        var r = false;
-        if( input.closest('table').hasClass('math') ){
-          r = check_math_input(input, answer);
-        } else {
-          r = check_other_input(input, answer);
-        }
-
-        if( r ){
+        if( check_answer(input, answer) ){
           input.addClass('correct')
         } else {
           input.addClass('wrong')
@@ -72,19 +67,9 @@
         }
       }
 
-      function check_math_input(input, answer){
-        answer = parseInt(answer)
-
-        var primer = $('td.primer', input.closest('tr')).text()
-        primer = primer.replace(/:/g, "/")
-        primer = primer.replace(/∙/g, "*")
-        //console.log(eval(primer))
-        return eval(primer) == answer;
-      }
-
-      function check_other_input(input, answer){
+      function check_answer(input, answer){
         //console.log(input)
-        var right_answer = input.siblings('.answer').text()
+        var right_answer = $(input).siblings('.answer').text()
         if( right_answer.indexOf('[') != -1 && right_answer.indexOf(']') != -1 ){
           // multiple right answers
           return $.parseJSON(right_answer).indexOf(answer) != -1
@@ -99,9 +84,10 @@
         - @primers.each_with_index do |primer, idx|
           %tr
             %td(align='right')= idx+1
-            %td.primer= primer.to_s.tr('/*',':∙')
+            %td.primer= primer.to_s.tr('/*',':∙').gsub(/∙∙(\d+)/, '<sup>\1</sup>')
             %td.input
               %input.empty
+              .answer= primer.result
 
         - @modules.each do |km, m|
           %table
