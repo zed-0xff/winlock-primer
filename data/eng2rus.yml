@@ -16,7 +16,9 @@ bicycle: велосипед
 car:
  - машина
  - автомобиль
-floor: пол
+floor:
+ - пол
+ - этаж
 wall: стена
 orange:
  - оранжевый
@@ -147,3 +149,24 @@ eleven: одиннадцать
 twelve: двенадцать
 zero: ноль
 milk: молоко
+weather: погода
+teacher: учитель
+tea: чай
+sugar: сахар
+salt: соль
+pepper: перец
+winter: зима
+spring: весна
+autumn: осень
+summer: лето
+you: ты
+she: она
+he: он
+it:
+ - оно
+ - это
+this: это
+I: я
+game: игра
+player: игрок
+score: счет
