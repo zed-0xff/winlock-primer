@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'sinatra'
+require 'sinatra/reloader'
 require 'haml'
 require 'digest/md5'
 require 'yaml'

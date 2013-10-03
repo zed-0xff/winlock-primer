@@ -38,9 +38,9 @@
           check_input(this)
         })
 
-        // reload page at next day start, if still open
+        // reload page at next day 01:00, if window still open
         var d=new Date()
-        var d1=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1)
+        var d1=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1, 1)
         setTimeout(function(){ window.location.reload() }, d1-d)
       })
 
