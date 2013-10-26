@@ -5,8 +5,13 @@
 require 'yaml'
 require 'digest/md5'
 
+ROOT = File.expand_path(File.dirname(__FILE__), "..")
+
+Dir.chdir ROOT
+system "git pull"
+
 def read_config
-  fname = File.join(File.dirname(__FILE__), "..", "config", "primer.yml")
+  fname = File.join(ROOT, "config", "primer.yml")
   config = {}
   config = YAML::load_file(fname) if File.exist?(fname)
   config
