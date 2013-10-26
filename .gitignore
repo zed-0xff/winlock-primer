@@ -1,3 +1,4 @@
 tmp/*
 log/*
 config/primer.yml
+Gemfile.lock
