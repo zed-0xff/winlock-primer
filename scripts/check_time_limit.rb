@@ -45,19 +45,44 @@ module Kernel32
   attach_function :get_tick_count, 'GetTickCount', [], :int
 end
 
+module Netapi32
+  extend FFI::Library
+
+  ffi_lib "netapi32"
+  ffi_convention :stdcall
+
+  attach_function :net_user_change_password, 'NetUserChangePassword', [:buffer_in]*4, :int
+end
+
+###############################################################################
+
 def message_box msg
   msg = "#{msg}\0".encode("UTF-16LE")
   User32.message_box(nil, msg, msg, MB_SYSTEMMODAL|MB_ICONSTOP)
 end
 
+def limit
+  t1 = Time.now
+  (t1.sunday? || t1.saturday?) ? DAILY_LIMIT_WEEKENDS : DAILY_LIMIT_WORKDAYS
+end
+
 def lock_user!
+  return if @data[1] < limit # prevent race condition
+
   dt = Time.now
-  seed_string = "%02d%02d%04d-LOCKED" % [dt.day, dt.month, dt.year]
+  seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
+  old_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
+
+  seed_string += "-LOCKED"
   new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
 
-  system "net user #@user #{new_password}"
+  #system "net user #@user #{new_password}"
+  Netapi32.net_user_change_password nil, nil,
+    "#{old_password}\0".encode("UTF-16LE"),
+    "#{new_password}\0".encode("UTF-16LE")
+
   message_box "Ваше время истекло!"
-  sleep 5
+  sleep 4
   User32.lock_workstation
 end
 
@@ -80,7 +105,6 @@ def log_activity
     @data[1] += CHECK_PERIOD
     save_data
 
-    limit = (t1.sunday? || t1.saturday?) ? DAILY_LIMIT_WEEKENDS : DAILY_LIMIT_WORKDAYS
     if @data[1] >= limit
       lock_user!
     elsif limit-@data[1] <= 5*60
