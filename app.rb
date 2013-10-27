@@ -7,7 +7,7 @@ require 'yaml'
 require File.join(File.dirname(__FILE__), "lib", "primer")
 require File.join(File.dirname(__FILE__), "lib", "winapi")
 
-TIME_LIMIT_DATA_FILE = File.join(ENV['USERPROFILE'], "ctl.sys")
+TIME_LIMIT_DATA_FILE = "ctl.sys"
 
 ##############################
 
