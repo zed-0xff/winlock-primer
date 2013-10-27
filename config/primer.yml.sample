@@ -2,5 +2,10 @@
 primers: 3
 # number of primers at weekend
 primers_weekend: 5
-# username to be blocked
+# username to be blocked (use UTF-8 for non-ASCII)
 user: bob
+# path to user's profile dir (use UTF-8 for non-ASCII)
+userprofile: "c:/users/bob"
+# host/port to bind webserver to
+host: localhost
+port: 9090

@@ -4,8 +4,10 @@ require 'sinatra/reloader'
 require 'haml'
 require 'digest/md5'
 require 'yaml'
-
 require File.join(File.dirname(__FILE__), "lib", "primer")
+require File.join(File.dirname(__FILE__), "lib", "winapi")
+
+TIME_LIMIT_DATA_FILE = File.join(ENV['USERPROFILE'], "ctl.sys")
 
 ##############################
 
@@ -42,4 +44,31 @@ get '/' do
   @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
   haml :index
+end
+
+get '/status' do
+  config = read_config
+  if config['userprofile']
+    fname = File.join(config['userprofile'], TIME_LIMIT_DATA_FILE)
+    if File.exist?(fname)
+      data = nil
+      begin
+        data = Marshal.load(File.binread(fname))
+      rescue
+      end
+      if data.is_a?(Array)
+        r = data.inspect
+        if data[1].is_a?(Fixnum)
+          r << "\n(%1.1f hours)" % (data[1]/3600.0)
+        end
+        r
+      else
+        "[?] no data"
+      end
+    else
+      "TIME_LIMIT_DATA_FILE not exists"
+    end
+  else
+    "userprofile config variable is not set"
+  end
 end
