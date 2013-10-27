@@ -1,3 +1,4 @@
+require 'ffi'
 
 MB_SYSTEMMODAL = 0x1000
 MB_ICONSTOP    = 0x10
