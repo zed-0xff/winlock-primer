@@ -26,7 +26,18 @@ def read_config
     cfg['data'] = YAML::load_file( File.join(File.dirname(__FILE__), "data", k+".yml") )
   end
 
+  user = config['user']
+  raise "invalid username" if !user || user =~ /[\x00-\x20]/ || user[/[\\\/:\|\[\]\{\} ]/]
+  user = user.encode('cp1251')
+  raise "invalid username" if !user || user =~ /[\x00-\x20]/ || user[/[\\\/:\|\[\]\{\} ]/]
+  config['user'] = user
+
   config
+end
+
+def update_password user, seed_string
+  new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
+  system "net user #{user} #{new_password}"
 end
 
 ##############################
@@ -36,6 +47,7 @@ get '/' do
 
   dt = Time.now
   seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
+  update_password config['user'], seed_string
   srand(seed_string.to_i(10))
   @primers = []
   config['primers'].times do

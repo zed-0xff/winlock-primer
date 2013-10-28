@@ -2,6 +2,7 @@
 
 # this file must be run from the registry of target user
 
+require 'rubygems'
 require "ffi"
 require 'yaml'
 require 'digest/md5'
@@ -25,6 +26,16 @@ def message_box msg
   User32.message_box(nil, msg, msg, MB_SYSTEMMODAL|MB_ICONSTOP)
 end
 
+def rubyw
+  ruby = Gem.ruby
+  rubyw = ruby.sub /ruby\.exe/, "rubyw.exe"
+  File.executable?(rubyw) ? rubyw : ruby
+end
+
+def message_box_nonblk x
+  system "start", rubyw, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), x.to_s
+end
+
 def limit
   t1 = Time.now
   (t1.sunday? || t1.saturday?) ? DAILY_LIMIT_WEEKENDS : DAILY_LIMIT_WORKDAYS
@@ -45,14 +56,17 @@ def lock_user!
     "#{old_password}\0".encode("UTF-16LE"),
     "#{new_password}\0".encode("UTF-16LE")
 
-  message_box "Ваше время истекло!"
+  #message_box "Ваше время истекло!"
+  message_box_nonblk 2
   sleep 4
   User32.lock_workstation
 end
 
 # show messagebox 5 minutes before lock
 def show_5min_notification
-  message_box "Ваше время истечет через 5 минут!"
+  #message_box "Ваше время истечет через 5 минут!"
+  message_box_nonblk 1
+  system Gem.ruby, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), '1'
 end
 
 def save_data
