@@ -33,7 +33,7 @@ def rubyw
 end
 
 def message_box_nonblk x
-  system "start", rubyw, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), x.to_s
+  system "start", rubyw, File.expand_path("msgbox.rb", File.dirname(__FILE__)), x.to_s
 end
 
 def limit
@@ -66,7 +66,7 @@ end
 def show_5min_notification
   #message_box "Ваше время истечет через 5 минут!"
   message_box_nonblk 1
-  system Gem.ruby, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), '1'
+  system Gem.ruby, File.expand_path("msgbox.rb", File.dirname(__FILE__)), '1'
 end
 
 def save_data

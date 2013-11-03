@@ -7,7 +7,7 @@ def rubyw
 end
 
 puts "[.] before msgbox 1"
-system "start", rubyw, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), '1'
+system "start", rubyw, File.expand_path("msgbox.rb", File.dirname(__FILE__)), '1'
 puts "[.] after msgbox 1"
-system "start", rubyw, File.expand_path(File.dirname(__FILE__), "msgbox.rb"), '2'
+system "start", rubyw, File.expand_path("msgbox.rb", File.dirname(__FILE__)), '2'
 puts "[.] after msgbox 2"

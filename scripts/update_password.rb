@@ -5,7 +5,7 @@
 require 'yaml'
 require 'digest/md5'
 
-ROOT = File.expand_path(File.dirname(__FILE__), "..")
+ROOT = File.expand_path("..", File.dirname(__FILE__))
 
 Dir.chdir ROOT
 system "git pull"
