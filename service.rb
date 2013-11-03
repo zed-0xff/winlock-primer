@@ -13,10 +13,10 @@ begin
   class DemoDaemon < Daemon
     def service_main
       config = read_config
-      host = config[:host] || 'localhost'
-      port = config[:port] || 9090
+      host = config['host'] || 'localhost'
+      port = config['port'] || 9090
 
-      Sinatra::Application.run! :host => host, :port => port #, :server => 'thin'
+      Sinatra::Application.run! :bind => host, :port => port #, :server => 'thin'
 
 #      while running?
 #        sleep 10

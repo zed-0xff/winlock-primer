@@ -5,7 +5,12 @@ require 'haml'
 require 'digest/md5'
 require 'yaml'
 require File.join(File.dirname(__FILE__), "lib", "primer")
-require File.join(File.dirname(__FILE__), "lib", "winapi")
+
+def windows?
+  RUBY_PLATFORM['mingw']
+end
+
+require File.join(File.dirname(__FILE__), "lib", "winapi") if windows?
 
 TIME_LIMIT_DATA_FILE = "ctl.sys"
 
@@ -36,6 +41,7 @@ def read_config
 end
 
 def update_password user, seed_string
+  return unless windows?
   new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   system "net user #{user} #{new_password}"
 end
