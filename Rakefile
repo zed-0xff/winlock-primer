@@ -11,10 +11,10 @@ task :register do
   Service.create({
     :service_name       => SERVICE_NAME,
     :service_type       => Service::WIN32_OWN_PROCESS,
-    :description        => 'A custom service I wrote just for fun',
+    :description        => 'Primers',
     :start_type         => Service::AUTO_START,
     :error_control      => Service::ERROR_NORMAL,
-    :binary_path_name   => 'c:\ruby\bin\ruby.exe -C c:\winlock-primer service.rb',
+    :binary_path_name   => 'c:\ruby\bin\rubyw.exe -C c:\winlock-primer service.rb',
     :load_order_group   => 'Network',
     :dependencies       => ['W32Time','Schedule'],
     :display_name       => SERVICE_NAME
