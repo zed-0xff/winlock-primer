@@ -29,3 +29,13 @@ task :unregister do
   # unitil you close and reopen it (it gets marked for deletion)
   Win32::Service.delete(SERVICE_NAME)
 end
+
+begin
+  require 'rspec/core'
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec) do |spec|
+      spec.pattern = FileList['spec/**/*_spec.rb']
+  end
+  task :default => :spec
+rescue LoadError
+end
