@@ -57,7 +57,7 @@ get '/' do
   srand(seed_string.to_i(10))
   @primers = []
   config['primers'].times do
-    @primers << Primer.generate(100+rand(1900), 6+rand(4))
+    @primers << Primer.generate(100+rand(1900), 8+rand(4))
   end
   @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
