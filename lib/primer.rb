@@ -21,20 +21,46 @@ end
 class Primer
   attr_accessor :result
 
-  def initialize result, complexity, debug = false
+  POWERS_TBL = {}
+  POWERS = 2..5
+  MAX_POWER_RESULT = 999999
+
+  def self.init
+    return unless POWERS_TBL.empty?
+
+    POWERS.each do |power|
+      x = 1; result = 0
+      while result < MAX_POWER_RESULT
+        x += 1
+        result = x**power
+        POWERS_TBL[result] ||= []
+        POWERS_TBL[result] << "#{x}**#{power}"
+      end
+    end
+  end
+
+  def initialize result, complexity, h = {}
+    Primer.init if POWERS_TBL.empty?
+
     @result = result
-    @debug = debug
-    @s = result.to_s
+    @debug = h[:debug]
+    @s = h[:s] ? h[:s].dup : result.to_s
     puts "[.] #{self}" if @debug
     (2+rand(1)).times do
-      complexize! %w'+'
+      complexize! %w'+ * / -'
+      puts "[.] #{self}" if @debug
+      raise self.inspect if eval(self.to_s) != self.result
     end
-    @s.tr!('()','')
-    while @s.count('-+*/') < complexity
+    #@s.tr!('()','')
+    while @s.gsub('**','*').count('-+*/') < complexity
       complexize! %w'- * * / / **'
       puts "[.] #{self}" if @debug
+      raise self.inspect if eval(self.to_s) != self.result
     end
-    while debracket!; end
+    #while debracket!; end
+#  rescue
+#    p self
+#    raise
   end
 
   ACTIONS = %w'+ - * /'
@@ -43,17 +69,28 @@ class Primer
     n = @s.scan(/\d+/).size
     j = rand(n)
     i = 0
-    # we need all numbers not surrounded by '**'s
+    # we need all numbers not having '**' at their right
     @s.scan(/\d+/) do |match|
       if i == j
         next if @s[$~.begin(0)-2,2] == '**'
-        next if @s[$~.end(0),2] == '**'
-        @s[$~.begin(0)...$~.end(0)] = num2expr(match.to_i, actions)
+        #next if @s[$~.end(0),2] == '**'
+        range = $~.begin(0)...$~.end(0)       # range of number to replace with cpart
+        cpart = num2expr(match.to_i, actions) 
+        # cpart always has brackets, so first try to get rid of them
+        ts = @s.dup
+        ts[range] = cpart.tr('()','')
+        if eval(ts) == @result
+          # success! no excess brackets now
+          @s = ts
+        else
+          # leave brackets in place
+          @s[range] = cpart
+        end
         break
       end
       i += 1
     end
-    if @s.count('(') == 1 && @s.count(')') == 1 && @s =~ /^\(.+\)$/
+    if @s =~ /^\([^()]+\)$/
       # strip global brackets
       @s = @s[1..-2]
     end
@@ -64,26 +101,26 @@ class Primer
   end
 
   private
-  def num2expr result, actions = ACTIONS # convert number to expression
-    actions = actions.dup
+  def num2expr result, actions0 = ACTIONS # convert number to expression
+    actions = actions0.dup
 
-    if actions.include?('**')
-      t = Math.sqrt(result).to_i
-      if t*t == result
-        if result > 4
-          return "#{t}**2"
-        else
-          return "#{t}**2" if rand < 0.2
-        end
-      end
-      return "#{result}**1" if rand < 0.01
-      return "#{rand(1000)}**0" if rand < 0.1 && result == 1
-      actions -= ['**']
-    end
-
+    actions -= ['**'] if result == 0
     actions -= %w'+ * /' if result <= 1
     actions -= %w'*' if result.divisors.size <= 2
     #puts "[.] #{result}: #{actions.inspect}"
+
+    if actions.include?('**')
+      if POWERS_TBL[result]
+        # boost the probability of known powers
+        actions += ['**']*4
+      elsif result != 1
+        # lower the probability of x**1
+        actions -= ['**'] if actions.uniq.size > 1 && rand > 0.1
+      end
+    end
+
+    raise "no actions! (was: #{actions0.inspect})" if actions.empty?
+
     action = actions.random
 
     r = case action
@@ -111,6 +148,16 @@ class Primer
       when '/'
         x = rand(15) + 2
         "#{result*x} / #{x}"
+      when '**'
+        if rand < 0.01
+          "#{result}**1" 
+        elsif result == 1
+          "#{rand(1000)}**0"
+        elsif variants = POWERS_TBL[result]
+          variants.random
+        else
+          "#{result}**1" 
+        end
       end
 
     "(#{r})" # always add brackets
@@ -127,11 +174,14 @@ class Primer
     false
   end
 
-  # generate primer with max bracket depth = 1
-  def self.generate answer, complexity, debug = false
+  def self.generate *args
     loop do
-      primer = Primer.new(answer, complexity, debug)
-      redo if primer.to_s =~ /\([^\)]*\(/
+      begin
+        primer = Primer.new(*args)
+      rescue ZeroDivisionError
+        redo
+      end
+      #redo if primer.to_s =~ /\([^\)]*\(/
       raise "#{primer.inspect}:\n  #{primer.result} != #{eval(primer.to_s)}" if primer.result != eval(primer.to_s)
       return primer
     end
@@ -145,7 +195,7 @@ if __FILE__ == $0
   n = (ARGV.first || "10").to_i
 
   n.times do
-    primer = Primer.generate(100+rand(1900), 6+rand(4), debug)
+    primer = Primer.generate(100+rand(1900), 6+rand(4), :debug => debug)
     puts primer
   end
 end
