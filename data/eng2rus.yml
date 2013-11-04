@@ -1,172 +1,228 @@
 ---
-mother:
- - мама
- - мать
-father:
- - папа
- - отец
-dog:
- - собака
- - пес
-cat:
- - кот
- - кошка
-cow: корова
+airport: аэропорт
+autumn: осень
 bicycle: велосипед
-car:
- - машина
- - автомобиль
-floor:
- - пол
- - этаж
-wall: стена
-orange:
- - оранжевый
- - апельсин
-red: красный
-green: зеленый
-yellow: 
- - желтый
- - жёлтый
-mouse:
- - мышь
- - мышка
-chicken: курица
-table: стол
-face: лицо
-man:
- - мужчина
- - человек
-woman: женщина
-girl:
- - девочка
- - девушка
+binoculars: бинокль
+black:
+- черный
+- чёрный
+blue: синий
+book: книга
 boy: мальчик
+bread: хлеб
+butter: масло
+cake:
+- торт
+- пирожное
+calculator: калькулятор
+car:
+- машина
+- автомобиль
+cat:
+- кот
+- кошка
+caution:
+- осторожность
+- предупреждение
+- предостережение
+chair: стул
+chicken: курица
 child: ребенок
 children: дети
-white: белый
-blue: синий
-black:
- - черный
- - чёрный
-head: голова
-hand: рука
-leg: нога
-house:
- - дом
- - здание
-home: дом
-Russia: Россия
-USA: США
-computer: компьютер
-calculator: калькулятор
-water: вода
-road: 
- - дорога
- - путь
-hot: горячий
+class:
+- урок
+- класс
+- занятие
+- тип
+chocolate: шоколад
+clock: часы
 cold: холодный
+computer: компьютер
+cookie: печенье
+cow: корова
+cowboy: ковбой
+dog:
+- собака
+- пес
+down:
+- низ
+- вниз
+eight: восемь
+eleven: одиннадцать
+eraser:
+- ластик
+- резинка
+- стирательная резинка
+error: ошибка
+eye: глаз
+face: лицо
+father:
+- папа
+- отец
+five: пять
+floor:
+- пол
+- этаж
 food:
- - еда
- - пища
+- еда
+- пища
+for:
+- для
+- на
+- за
+four: четыре
+from:
+- от
+- из
+- с
+game: игра
+gas:
+- газ
+- бензин
+girl:
+- девочка
+- девушка
+glass:
+- стекло
+- стакан
+green: зеленый
+hand: рука
+he: он
+head: голова
+home: дом
+hot: горячий
+hour: час
+house:
+- дом
+- здание
+I: я
+in: в
+it:
+- оно
+- это
+joystick: джойстик
+keyboard: клавиатура
+kitchen: кухня
+kitten:
+- котенок
+- котёнок
+left:
+- лево
+- левый
+leg: нога
+man:
+- мужчина
+- человек
+men:
+- люди
+- мужчины
+menu: меню
+milk: молоко
+minute: минута
+monitor: монитор
+mother:
+- мама
+- мать
+mouse:
+- мышь
+- мышка
+mouth: рот
 music: музыка
-picture:
- - картина
- - картинка
- - фотография
-book: книга
+nine: девять
+notebook:
+- ноутбук
+- блокнот
+- записная книжка
+number:
+- номер
+- число
+- количество
+'on':
+- на
+- по
+one: один
+orange:
+- оранжевый
+- апельсин
+paper: бумага
 pen: ручка
 pencil: карандаш
-paper: бумага
-scissors: ножницы
-eraser:
- - ластик
- - резинка
- - стирательная резинка
-chair: стул
-monitor: монитор
-keyboard: клавиатура
-left:
- - лево
- - левый
-right:
- - право
- - правый
- - правильный
-up:
- - верх
- - вверх
-down:
- - низ
- - вниз
-in: в
-on:
- - на
- - по
-from:
- - от
- - из
- - с
-for:
- - для
- - на
- - за
-what: что
-where: где
-when: когда
-TV:
- - ТВ
- - телевизор
-joystick: джойстик
-phone: телефон
-clock: часы
-hour: час
-minute: минута
-second:
- - секунда
- - второй
-toy: игрушка
-bread: хлеб
-butter: масло
-water: вода
-toy: игрушка
-bread: хлеб
-butter: масло
-water: вода
-street: улица
-number: номер
-one: один
-two: два
-three: три
-four: четыре
-five: пять
-six: шесть
-seven: семь
-eight: восемь
-nine: девять
-ten: десять
-eleven: одиннадцать
-twelve: двенадцать
-zero: ноль
-milk: молоко
-weather: погода
-teacher: учитель
-tea: чай
-sugar: сахар
-salt: соль
 pepper: перец
-winter: зима
-spring: весна
-autumn: осень
-summer: лето
-you: ты
-she: она
-he: он
-it:
- - оно
- - это
-this: это
-I: я
-game: игра
+phone: телефон
+picture:
+- картина
+- картинка
+- фотография
 player: игрок
+power:
+- мощность
+- власть
+- сила
+- энергия
+red: красный
+right:
+- право
+- правый
+- правильный
+road:
+- дорога
+- путь
+root: корень
+Russia: Россия
+salt: соль
+scissors: ножницы
 score: счет
+second:
+- секунда
+- второй
+seven: семь
+she: она
+six: шесть
+space:
+- пространство
+- место
+- пробел
+- космос
+spring: весна
+street: улица
+sugar: сахар
+summer: лето
+table: стол
+tea: чай
+teacher: учитель
+teeth: зубы
+ten: десять
+this: это
+three: три
+tooth: зуб
+toy: игрушка
+train:
+- поезд
+- обучаться
+- обучать
+- тренироваться
+- тренировать
+TV:
+- ТВ
+- телевизор
+twelve: двенадцать
+two: два
+up:
+- верх
+- вверх
+USA: США
+wall: стена
+water: вода
+weather: погода
+what: что
+wheel: колесо
+when: когда
+where: где
+white: белый
+winter: зима
+woman: женщина
+yellow:
+- желтый
+- жёлтый
+you: ты
+zero: ноль
