@@ -5,3 +5,6 @@ rus:
 eng2rus:
   title: переведи с английского языка
   primers: 5
+informatics:
+  title: информатика
+  primers: 5
