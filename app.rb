@@ -4,6 +4,7 @@ require 'sinatra/reloader'
 require 'haml'
 require 'digest/md5'
 require 'yaml'
+require 'erb'
 require File.join(File.dirname(__FILE__), "lib", "primer")
 
 def windows?
@@ -28,7 +29,11 @@ def read_config
   config['modules'] = YAML::load_file(File.join(File.dirname(__FILE__), "data", "index.yml"))
   config['modules'].each do |k,cfg|
     raise unless k =~ /\A[a-z0-9_]+\Z/i
-    cfg['data'] = YAML::load_file( File.join(File.dirname(__FILE__), "data", k+".yml") )
+    data = File.read File.join(File.dirname(__FILE__), "data", k+".yml")
+    if data['<%='] && data['%>']
+      data = ERB.new(data).result
+    end
+    cfg['data'] = YAML.load data
   end
 
   user = config['user']
