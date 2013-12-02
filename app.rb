@@ -29,7 +29,7 @@ def read_config
   config['modules'] = YAML::load_file(File.join(File.dirname(__FILE__), "data", "index.yml"))
   config['modules'].each do |k,cfg|
     raise unless k =~ /\A[a-z0-9_]+\Z/i
-    data = File.read File.join(File.dirname(__FILE__), "data", k+".yml")
+    data = File.read File.join(File.dirname(__FILE__), "data", k+".yml"), :encoding => 'UTF-8'
     if data['<%='] && data['%>']
       data = ERB.new(data).result
     end
