@@ -48,7 +48,7 @@
         input = $(input)
 
         input.removeClass('empty wrong correct')
-        var answer = input.val().replace(/ /g, '')
+        var answer = input.val() //.replace(/ /g, '')
         if( answer.length == 0 ){
           input.addClass('empty')
           return
