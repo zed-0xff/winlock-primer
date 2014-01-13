@@ -4,6 +4,7 @@ require 'sinatra/reloader'
 require 'haml'
 require 'digest/md5'
 require 'yaml'
+require 'json'
 require 'erb'
 require File.join(File.dirname(__FILE__), "lib", "primer")
 
@@ -15,6 +16,21 @@ require File.join(File.dirname(__FILE__), "lib", "winapi") if windows?
 
 TIME_LIMIT_DATA_FILE = "ctl.sys"
 
+##############################
+helpers do
+  def scramble a
+    a.map do |answer|
+      case answer
+      when String
+        answer.each_char.map(&:ord).join(',')
+      when Array
+        scramble answer
+      else
+        answer
+      end
+    end
+  end
+end
 ##############################
 
 def read_config
@@ -66,6 +82,7 @@ get '/' do
   end
   @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
+  @answers = []
   haml :index
 end
 

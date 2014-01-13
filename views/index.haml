@@ -70,11 +70,13 @@
       }
 
       function check_answer(input, answer){
-        //console.log(input)
-        var right_answer = $(input).siblings('.answer').text()
-        if( right_answer.indexOf('[') != -1 && right_answer.indexOf(']') != -1 ){
+        if( ! /^\d+$/.exec(answer) )
+          answer = answer.split("").map(function(x){return x.charCodeAt(0)}).join(",")
+
+        var right_answer = answers[parseInt($(input).siblings('.answer').text())-1]
+        if( typeof(right_answer) == "object" ){
           // multiple right answers
-          return $.parseJSON(right_answer).indexOf(answer) != -1
+          return right_answer.indexOf(answer) != -1
         } else {
           return answer == right_answer
         }
@@ -89,7 +91,7 @@
             %td.primer= primer.to_s.tr('/*',':∙').gsub(/∙∙(\d+)/, '<sup>\1</sup>')
             %td.input
               %input.empty
-              .answer= primer.result
+              .answer= @answers.push(primer.result).size
 
         - @modules.each do |km, m|
           %table
@@ -99,5 +101,7 @@
                 %td.primer= k
                 %td.input
                   %input.empty
-                  .answer= v
+                  .answer= @answers.push(v).size
       .password
+  :javascript
+    var answers = #{scramble(@answers).to_json}
