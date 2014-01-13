@@ -61,6 +61,8 @@
         }
 
         if( $('.primer').length == $('.correct').length ){
+          var t = #{@password.to_i(16)}
+          $('.password').html(t.toString(16).toUpperCase())
           $('.password').show(100)
         } else {
           $('.password').hide(100)
@@ -98,4 +100,4 @@
                 %td.input
                   %input.empty
                   .answer= v
-      .password= @password
+      .password
