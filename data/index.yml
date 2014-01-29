@@ -1,10 +1,13 @@
 ---
+math2:
+  title: математика
+  primers: 3
 rus:
   title: русский язык
-  primers: 8
+  primers: 7
 eng2rus:
   title: переведи с английского языка
-  primers: 5
+  primers: 4
 informatics:
   title: информатика
-  primers: 5
+  primers: 4
