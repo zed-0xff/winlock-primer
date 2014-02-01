@@ -62,7 +62,9 @@
 
         if( $('.primer').length == $('.correct').length ){
           var t = #{@password.to_i(16)}
-          $('.password').html(t.toString(16).toUpperCase())
+          t = t.toString(16).toUpperCase()
+          while( t.length < 8 ) t = '0' + t;
+          $('.password').html(t)
           $('.password').show(100)
         } else {
           $('.password').hide(100)
