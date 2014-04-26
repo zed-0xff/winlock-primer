@@ -67,6 +67,11 @@ def update_password user, seed_string
   system "net user #{user} #{new_password}"
 end
 
+def pass_for_date dt
+  seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
+  Digest::MD5.hexdigest(seed_string)[0,8].upcase
+end
+
 ##############################
 
 get '/' do
@@ -110,5 +115,24 @@ get '/status' do
     end
   else
     "userprofile config variable is not set"
+  end
+end
+
+get '/admin' do
+  haml :admin
+end
+
+post '/admin' do
+  config = read_config
+  if Digest::MD5.hexdigest(params[:pw].to_s) == config['admin_pass']
+    @h = {}
+    3.downto(-5).each do |delta|
+      dt = Date.today + delta
+      ps = pass_for_date dt
+      @h[ dt ] = ps
+    end
+    haml :admin2
+  else
+    haml :admin
   end
 end

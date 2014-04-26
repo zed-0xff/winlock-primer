@@ -1,0 +1,15 @@
+-# coding: utf-8
+%html
+  %head
+    :css
+      *        { font-family: monospace }
+      table    { border-collapse: collapse }
+      tr.today { background-color: #8f8 }
+      td       { padding: 2px 4px }
+      td.dt    { padding-right: 1em }
+  %body
+    %table
+      - @h.each do |dt,ps|
+        %tr{ :class => dt == Date.today ? "today" : "" }
+          %td.dt= dt
+          %td= ps
