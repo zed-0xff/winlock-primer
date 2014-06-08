@@ -7,6 +7,7 @@ require 'yaml'
 require 'json'
 require 'erb'
 require File.join(File.dirname(__FILE__), "lib", "primer")
+require File.join(File.dirname(__FILE__), "lib", "equation")
 
 def windows?
   RUBY_PLATFORM['mingw']
@@ -41,6 +42,8 @@ def read_config
     config['primers'] = config['primers_weekend']
   end
   config['primers'] ||= 10
+
+  config['equations'] ||= 3
 
   config['modules'] = YAML::load_file(File.join(File.dirname(__FILE__), "data", "index.yml"))
   config['modules'].each do |k,cfg|
@@ -81,10 +84,17 @@ get '/' do
   seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
   update_password config['user'], seed_string
   srand(seed_string.to_i(10))
+
   @primers = []
   config['primers'].times do
-    @primers << Primer.generate(100+rand(1900), 8+rand(4))
+    @primers << Primer.generate(100+rand(1900), 7+rand(4))
   end
+
+  @equations = []
+  config['equations'].times do
+    @equations << Equation.generate
+  end
+
   @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
   @answers = []

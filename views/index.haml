@@ -89,11 +89,19 @@
         %caption реши примеры
         - @primers.each_with_index do |primer, idx|
           %tr
-            %td(align='right')= idx+1
             %td.primer= primer.to_s.tr('/*',':∙').gsub(/∙∙(\d+)/, '<sup>\1</sup>')
             %td.input
               %input.empty
               .answer= @answers.push(primer.result).size
+
+      %table.equations
+        %caption реши уравнения
+        - @equations.each do |e|
+          %tr
+            %td.primer= e.to_s.tr('/*',':∙').gsub(/∙∙(\d+)/, '<sup>\1</sup>')
+            %td.input
+              %input.empty
+              .answer= @answers.push(e.answer).size
 
         - @modules.each do |km, m|
           %table

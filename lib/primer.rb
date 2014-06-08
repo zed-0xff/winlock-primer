@@ -42,6 +42,10 @@ class Primer
   def initialize result, complexity, h = {}
     Primer.init if POWERS_TBL.empty?
 
+    h[:actions] ||= %w'- * * / / **'
+    @add_mul_zero   = h.fetch(:add_mul_zero, true)
+    @max_rand_value = h[:max_rand_value] || 1000
+
     @result = result
     @debug = h[:debug]
     @s = h[:s] ? h[:s].dup : result.to_s
@@ -53,7 +57,7 @@ class Primer
     end
     #@s.tr!('()','')
     while @s.gsub('**','*').count('-+*/') < complexity
-      complexize! %w'- * * / / **'
+      complexize! h[:actions]
       puts "[.] #{self}" if @debug
       raise self.inspect if eval(self.to_s) != self.result
     end
@@ -101,6 +105,10 @@ class Primer
   end
 
   private
+  def rand_value
+    rand @max_rand_value
+  end
+
   def num2expr result, actions0 = ACTIONS # convert number to expression
     actions = actions0.dup
 
@@ -125,15 +133,15 @@ class Primer
 
     r = case action
       when '-'
-        if rand < 0.1 && (actions.include?('*') || actions.include?('/'))
-          "#{result} - #{rand(1000)} * #{rand(1000)} / #{rand(1000)} * 0"
+        if rand < 0.05 && (actions.include?('*') || actions.include?('/')) && @add_mul_zero
+          "#{result} - #{rand_value} * #{rand_value} / #{rand_value} * 0"
         else
-          x = rand(1000)
+          x = rand_value
           "#{result+x} - #{x}"
         end
       when '+'
-        if rand < 0.1 && (actions.include?('*') || actions.include?('/'))
-          "#{result} + #{rand(1000)} * #{rand(1000)} / #{rand(1000)} * 0"
+        if rand < 0.05 && (actions.include?('*') || actions.include?('/')) && @add_mul_zero
+          "#{result} + #{rand_value} * #{rand_value} / #{rand_value} * 0"
         else
           x = rand(result-1)
           "#{result-x} + #{x}"
@@ -152,7 +160,7 @@ class Primer
         if rand < 0.01
           "#{result}**1" 
         elsif result == 1
-          "#{rand(1000)}**0"
+          "#{rand_value}**0"
         elsif variants = POWERS_TBL[result]
           variants.random
         else
