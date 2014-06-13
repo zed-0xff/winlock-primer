@@ -1,6 +1,14 @@
 ---
 airport: аэропорт
 autumn: осень
+bad: плохой
+bag: сумка
+bed:
+- кровать
+- постель
+bug:
+- ошибка
+- жук
 bicycle: велосипед
 binoculars: бинокль
 black:
@@ -110,6 +118,7 @@ left:
 - лево
 - левый
 leg: нога
+lesson: урок
 man:
 - мужчина
 - человек
@@ -140,6 +149,7 @@ number:
 'on':
 - на
 - по
+octopus: осьминог
 one: один
 orange:
 - оранжевый
@@ -159,6 +169,7 @@ power:
 - власть
 - сила
 - энергия
+program: программа
 red: красный
 right:
 - право
@@ -172,6 +183,7 @@ Russia: Россия
 salt: соль
 scissors: ножницы
 score: счет
+school: школа
 second:
 - секунда
 - второй
@@ -188,12 +200,32 @@ street: улица
 sugar: сахар
 summer: лето
 table: стол
+tail: хвост
 tea: чай
 teacher: учитель
 teeth: зубы
 ten: десять
 this: это
 three: три
+to break: ломать
+to drink: пить
+to eat:
+- есть
+- кушать
+to teach: учить
+to learn: учиться
+to listen: слушать
+to run: 
+- бегать
+- бежать
+to solve: решать
+to speak: говорить
+to travel: путешествовать
+to visit: посещать
+to watch: смотреть
+to walk:
+- ходить
+- гулять
 tooth: зуб
 toy: игрушка
 train:
