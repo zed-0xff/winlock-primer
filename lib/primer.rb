@@ -83,7 +83,12 @@ class Primer
         # cpart always has brackets, so first try to get rid of them
         ts = @s.dup
         ts[range] = cpart.tr('()','')
-        if eval(ts) == @result
+        begin
+          flag = (eval(ts) == @result)
+        rescue ZeroDivisionError
+          flag = false
+        end
+        if flag
           # success! no excess brackets now
           @s = ts
         else
