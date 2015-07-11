@@ -24,7 +24,7 @@ end
 
 ###############################################################################
 
-CHECK_PERIOD   = 120 # (seconds)
+CHECK_PERIOD   = 30 # (seconds)
 DATA_FILE      = File.join(ENV['USERPROFILE'], "ctl.sys")
 
 ###############################################################################
@@ -92,7 +92,17 @@ def log_activity
     save_data
 
     if @data[1] >= limit
-      lock_user!
+      # forever lock until next day
+      loop do
+        lock_user!
+        sleep 10
+        t1 = Time.now
+        if t0.year != t1.year || t0.month != t1.month || t0.mday != t1.mday
+          # next day
+          @data = [Time.now, 0]
+          break
+        end
+      end
     elsif limit-@data[1] <= 5*60
       show_5min_notification
     end
