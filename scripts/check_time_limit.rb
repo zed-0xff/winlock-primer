@@ -60,9 +60,14 @@ def lock_user!
   new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
 
   #system "net user #@user #{new_password}"
-  Netapi32.net_user_change_password nil, nil,
+  r = Netapi32.net_user_change_password nil, nil,
     "#{old_password}\0".encode("UTF-16LE"),
     "#{new_password}\0".encode("UTF-16LE")
+
+  if r == 86
+    # ERROR_INVALID_PASSWORD
+    system "shutdown /s /t 10"
+  end
 
   #message_box "Ваше время истекло!"
   message_box_nonblk 2
