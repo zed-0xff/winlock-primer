@@ -64,15 +64,21 @@ def read_config
   config
 end
 
-def update_password user, seed_string
+def update_password user, new_password
   return unless windows?
-  new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   system "net user #{user} #{new_password}"
 end
 
+def seed_string dt = Time.now
+  "%02d%02d%04d" % [dt.day, dt.month, dt.year]
+end
+
 def pass_for_date dt
-  seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
-  Digest::MD5.hexdigest(seed_string)[0,8].upcase
+  Digest::MD5.hexdigest(seed_string(dt))[0,8].upcase
+end
+
+def pass_for_today
+  pass_for_date Time.now
 end
 
 ##############################
@@ -80,9 +86,8 @@ end
 get '/' do
   config = read_config
 
-  dt = Time.now
-  seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
-  update_password config['user'], seed_string
+  @password = pass_for_today
+  update_password config['user'], @password
   srand(seed_string.to_i(10))
 
   @primers = []
@@ -95,10 +100,18 @@ get '/' do
     @equations << Equation.generate
   end
 
-  @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
   @answers = []
   haml :index
+end
+
+post '/' do
+  if params[:pw] == pass_for_today
+    # TODO: reset limit
+    "OK"
+  else
+    halt 401, "Invalid password"
+  end
 end
 
 get '/status' do

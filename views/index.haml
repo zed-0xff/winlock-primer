@@ -66,6 +66,7 @@
           while( t.length < 8 ) t = '0' + t;
           $('.password').html(t)
           $('.password').show(100)
+          $.post('/', {pw: t})
         } else {
           $('.password').hide(100)
         }
