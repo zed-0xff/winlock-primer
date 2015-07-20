@@ -5,6 +5,7 @@ require 'haml'
 require 'digest/md5'
 require 'yaml'
 require 'json'
+require 'date'
 require 'erb'
 require File.join(File.dirname(__FILE__), "lib", "primer")
 require File.join(File.dirname(__FILE__), "lib", "equation")
@@ -13,6 +14,7 @@ def windows?
   RUBY_PLATFORM['mingw']
 end
 
+require File.join(File.dirname(__FILE__), "lib", "limits")
 require File.join(File.dirname(__FILE__), "lib", "winapi") if windows?
 
 TIME_LIMIT_DATA_FILE = "ctl.sys"
@@ -64,8 +66,14 @@ def read_config
   config
 end
 
+def today_limit_over?
+  data = read_data_file
+  data && data[0].to_date == Time.now.to_date && data[1] > limit
+end
+
 def update_password user, seed_string
   return unless windows?
+  seed_string += "-LOCKED" if today_limit_over?
   new_password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   system "net user #{user} #{new_password}"
 end
@@ -73,6 +81,22 @@ end
 def pass_for_date dt
   seed_string = "%02d%02d%04d" % [dt.day, dt.month, dt.year]
   Digest::MD5.hexdigest(seed_string)[0,8].upcase
+end
+
+def read_data_file
+  config = read_config
+  data = nil
+  if config['userprofile']
+    fname = File.join(config['userprofile'], TIME_LIMIT_DATA_FILE)
+    if File.exist?(fname)
+      data = nil
+      begin
+        data = Marshal.load(File.binread(fname))
+      rescue
+      end
+    end
+  end
+  data
 end
 
 ##############################
@@ -98,33 +122,20 @@ get '/' do
   @password = Digest::MD5.hexdigest(seed_string)[0,8].upcase
   @modules = config['modules']
   @answers = []
+  @subtitle = today_limit_over? ? '[OVER]' : ''
   haml :index
 end
 
 get '/status' do
-  config = read_config
-  if config['userprofile']
-    fname = File.join(config['userprofile'], TIME_LIMIT_DATA_FILE)
-    if File.exist?(fname)
-      data = nil
-      begin
-        data = Marshal.load(File.binread(fname))
-      rescue
-      end
-      if data.is_a?(Array)
-        r = data.inspect
-        if data[1].is_a?(Fixnum)
-          r << "\n(%1.1f hours)" % (data[1]/3600.0)
-        end
-        r
-      else
-        "[?] no data"
-      end
-    else
-      "TIME_LIMIT_DATA_FILE not exists"
+  data = read_data_file
+  if data.is_a?(Array)
+    r = data.inspect
+    if data[1].is_a?(Fixnum)
+      r << "\n(%1.1f hours)" % (data[1]/3600.0)
     end
+    r
   else
-    "userprofile config variable is not set"
+    "[?] no data"
   end
 end
 
