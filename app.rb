@@ -68,7 +68,7 @@ end
 
 def today_limit_over?
   data = read_data_file
-  data && data[0].to_date == Time.now.to_date && data[1] > limit
+  data && data[0].to_date == Time.now.to_date && data[1] >= limit
 end
 
 def update_password user, seed_string
