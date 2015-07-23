@@ -99,6 +99,14 @@ def read_data_file
   data
 end
 
+def write_data_file data
+  config = read_config
+  if config['userprofile']
+    fname = File.join(config['userprofile'], TIME_LIMIT_DATA_FILE)
+    File.binwrite(fname, Marshal.dump(data))
+  end
+end
+
 ##############################
 
 get '/' do
@@ -152,6 +160,15 @@ post '/admin' do
       ps = pass_for_date dt
       @h[ dt ] = ps
     end
+
+    if params[:value]
+      data = read_data_file
+      data[1] = params[:value].to_i
+      write_data_file data
+    end
+
+    data = read_data_file
+    @value = data[1]
     haml :admin2
   else
     haml :admin

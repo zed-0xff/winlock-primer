@@ -13,3 +13,7 @@
         %tr{ :class => dt == Date.today ? "today" : "" }
           %td.dt= dt
           %td= ps
+    %form(method="post")
+      %input(type="password" name="pw")
+      %input{ :name => "value", :value => @value }
+      %input(type="submit" value="Update")
