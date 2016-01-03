@@ -46,10 +46,10 @@ def lock_user!
     "#{old_password}\0".encode("UTF-16LE"),
     "#{new_password}\0".encode("UTF-16LE")
 
-  if r == 86
+  #if r == 86
     # ERROR_INVALID_PASSWORD
     system "shutdown /s /t 10"
-  end
+  #end
 
   #message_box "Ваше время истекло!"
   message_box_nonblk 2
