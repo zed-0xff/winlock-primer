@@ -139,7 +139,7 @@ get '/status' do
   if data.is_a?(Array)
     r = data.inspect
     if data[1].is_a?(Fixnum)
-      r << "\n(%1.1f hours)" % (data[1]/3600.0)
+      r << " (%1.1f hours)" % (data[1]/3600.0)
     end
     r
   else
