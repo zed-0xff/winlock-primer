@@ -138,7 +138,7 @@ get '/status' do
   data = read_data_file
   if data.is_a?(Array)
     if data[1].is_a?(Fixnum)
-      data << " (%1.1f hours)" % (data[1]/3600.0)
+      data << "%1.1f hours" % (data[1]/3600.0)
     end
     if today_limit_over?
       data << "OVER"
