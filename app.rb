@@ -174,3 +174,12 @@ post '/admin' do
     haml :admin
   end
 end
+
+post '/lock' do
+  User32.lock_workstation
+end
+
+post '/shutdown' do
+  system "shutdown /s /t 10"
+  $?
+end
