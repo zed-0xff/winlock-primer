@@ -6,6 +6,7 @@ require 'rubygems'
 require "ffi"
 require 'yaml'
 require 'digest/md5'
+require 'net/http'
 require File.join(File.dirname(__FILE__), "..", "lib", "winapi")
 require File.join(File.dirname(__FILE__), "..", "lib", "limits")
 
@@ -48,13 +49,16 @@ def lock_user!
 
   #if r == 86
     # ERROR_INVALID_PASSWORD
-    system "shutdown /s /t 10"
+    #system "shutdown /s /t 10"
   #end
 
   #message_box "Ваше время истекло!"
   message_box_nonblk 2
   sleep 4
-  User32.lock_workstation
+  #User32.lock_workstation
+
+  # TODO: unhardcode port
+  Net::HTTP.post_form(URI.parse('http://localhost:9090/shutdown'), {})
 end
 
 # show messagebox 5 minutes before lock
