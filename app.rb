@@ -107,6 +107,11 @@ def write_data_file data
   end
 end
 
+def shutdown!
+  system "shutdown /s /t 10"
+  $?
+end
+
 ##############################
 
 get '/' do
@@ -182,6 +187,14 @@ post '/lock' do
 end
 
 post '/shutdown' do
-  system "shutdown /s /t 10"
-  $?
+  shutdown!
 end
+
+post '/shut_if_over' do
+  if today_limit_over?
+    shutdown!
+  else
+    "NOT_YET"
+  end
+end
+
